@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>New Sample</title>
+</head>
+<body>
+<form action="/test" method="post">
+    {% csrf_token %}
+    <label for="sha256">SHA256</label>
+    <input type="text" name="sha256"><br>
+    <label for="ransomname">Ransom Name</label>
+    <input type="text" name="ransomname">
+    <label for="extension">Extension</label>
+    <input type="text" name="extension"><br>
+    <label for="wallettype">Wallet Type</label>
+    <input type="text" name="wallettype"><br>
+    <label for="walletno">Wallet No.</label>
+    <input type="text" name="walletno"><br>
+    <label for="mutex">Mutex</label>
+    <input type="text" name="mutex"><br>
+    <label for="publickey">Public Key</label>
+    <input type="text" name="publickey"><br>
+    <label for="deckey">Decryption Key</label>
+    <input type="text" name="deckey"><br>
+    <button type="submit" name="submit">Submit!</button>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>New Ransomware</title>
+</head>
+<body>
+<form action="/ransom" method="post">
+    {% csrf_token %}
+    <label for="name">Ransomware Name</label>
+    <input type="text" name="name"><br>
+    <label for="parent">Parent</label>
+    <input type="text" name="parent"><br>
+    <label for="family">Family</label>
+    <input type="text" name="family"><br>
+    <label for="similar">Similar</label>
+    <input type="text" name="similar"><br>
+    <label for="attacktype">AttackType</label>
+    <input type="text" name="attacktype"><br>
+    <label for="isroot">Is Root?</label><br>
+    <input type="radio" name="isroot" value="yes">Yes<br>
+    <input type="radio" name="isroot" value="no">No<br>
+    <label for="author">Author</label>
+    <input type="text" name="author"><br>
+    <button type="submit" name="submit">Submit!</button>
+
+</form>
+</body>
+</html>
