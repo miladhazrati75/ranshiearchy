@@ -48,3 +48,15 @@ class Network(models.Model):
 class Email(models.Model):
     sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
     email = models.CharField(max_length=200, null=True)
+
+
+class Mitre(models.Model):
+    sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
+    attack_id = models.CharField(max_length=200, null=True)
+    tactic = models.CharField(max_length=200, null=True)
+    technique = models.CharField(max_length=200, null=True)
+
+
+class NoHA(models.Model):
+    sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
+    sha256 = models.CharField(max_length=200, null=True)
