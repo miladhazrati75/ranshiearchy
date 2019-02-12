@@ -1,4 +1,4 @@
-import string , os, subprocess
+import string , os, subprocess, colorama
 
 
 
@@ -18,10 +18,22 @@ def hash(soup):
     title = ['ssdeep', 'authentihash', 'imphash']
     hashes = []
     x = soup.select('div.enum')
+    hashes =['','','']
     for name in title:
         for div in x:
             if name in div.text:
-                hashes.append(div.text.replace(name, '').translate({ord(c): None for c in string.whitespace}))
+                if name == 'ssdeep':
+                    hashes[0] = div.text.replace(name, '').translate({ord(c): None for c in string.whitespace})
+                    break
+                if name == 'authentihash':
+                    hashes[1] = div.text.replace(name, '').translate({ord(c): None for c in string.whitespace})
+                    break
+                if name == 'imphash':
+                    hashes[2] = div.text.replace(name, '').translate({ord(c): None for c in string.whitespace})
+                    break
+
+
+
     return hashes
 
 
