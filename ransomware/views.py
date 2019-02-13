@@ -4,7 +4,8 @@ from ransomware import models
 import requests, os, subprocess
 from bs4 import BeautifulSoup
 import string
-# Create your views here.
+
+
 def index(request):
     return render(request, 'index.html')
 

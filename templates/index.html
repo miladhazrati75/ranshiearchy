@@ -1,9 +1,16 @@
+{% load static %}
 <html>
 <head>
     <title>HomePage</title>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+    <script src="{% static "jquery.min.js" %}"></script>
+    <script src="{% static "popper.min.js" %}"></script>
+    <script src="{% static "bootstrap.min.js" %}"></script>
 </head>
 <body>
-<a href="/Ransomware">New Ransomware</a>
-<a href="/Sample">New Sample</a>
+<h2 align="center" style="margin-top: 200px;margin-bottom: 50px">Welcome To Ransomwares Hiearchy Creator</h2>
+<p align="center"><a href="/Ransomware" class="btn btn-info" role="button">New Ransomware</a></p>
+<p align="center"><a href="/Sample" class="btn btn-info" role="button">New Sample</a></p>
+
 </body>
 </html>
