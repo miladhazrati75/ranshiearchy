@@ -18,7 +18,10 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="name">Ransomware Name:</label>
-                    <input type="text" class="form-control" name="name">
+                    <input type="text" class="form-control" name="name" id="names">
+                </div>
+                <div class="salam">
+                    {{ msg }}
                 </div>
                 <div class="form-group">
                     <label for="parent">Parent:</label>
@@ -38,14 +41,14 @@
                 </div>
                 <div class="form-group">
                     <label for="isroot">Is Root?</label>
-                    <input type="radio" class="form-check-inline" name="isroot" value="yes">Yes
-                    <input type="radio" class="form-check-inline" name="isroot" value="no">No
+                    <input type="radio" class="form-check-inline" name="isroot" value="True">Yes
+                    <input type="radio" class="form-check-inline" name="isroot" value="False">No
                 </div>
                 <div class="form-group">
                     <label for="author">Author:</label>
                     <input type="text" class="form-control" name="author"><br>
                 </div>
-                <button type="submit" class="btn btn-info">Submit!</button>
+                <button type="submit" id="salam" class="btn btn-info">Submit!</button>
 
             </form>
         </div>
@@ -54,5 +57,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

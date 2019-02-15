@@ -1,4 +1,4 @@
-import string , os, subprocess, colorama
+import string , os, subprocess, colorama, json
 
 
 
@@ -16,7 +16,6 @@ def avs(soup, sha256):
 
 def hash(soup):
     title = ['ssdeep', 'authentihash', 'imphash']
-    hashes = []
     x = soup.select('div.enum')
     hashes =['','','']
     for name in title:
@@ -34,41 +33,16 @@ def hash(soup):
     return hashes
 
 
-def hybrid_analysis(all):
-    hosts = []
-    domains = []
+def hybrid_analysis(content):
     attck = []
     tactic = []
     technique = []
-
-    for i in range(len(all)):
-        if "compromised_hosts" in all[i]:
-            i += 1
-            while "]" and "[" not in all[i]:
-                hosts.append(
-                    all[i].replace(',', '').replace('"', '').translate({ord(c): None for c in string.whitespace}))
-                i += 1
-            break
-    for i in range(len(all)):
-        if "domains" in all[i]:
-            i += 1
-            while "]" and "[" and "environment_description" not in all[i]:
-                domains.append(
-                    all[i].replace(',', '').replace('"', '').translate({ord(c): None for c in string.whitespace}))
-                i += 1
-            break
-    for i in range(len(all)):
-        if "attck_id" in all[i]:
-            if "https" not in all[i]:
-                attck.append(all[i].split(':')[1].replace('"', '').replace(',', '').translate(
-                    {ord(c): None for c in string.whitespace}))
-    for i in range(len(all)):
-        if "tactic" in all[i]:
-            tactic.append(all[i].split(':')[1].replace('"', '').replace(',', '').translate(
-                {ord(c): None for c in string.whitespace}))
-    for i in range(len(all)):
-        if "technique" in all[i]:
-            technique.append(all[i].split(':')[1].replace('"', '').replace(',', '').translate(
-                {ord(c): None for c in string.whitespace}))
+    hosts = content['hosts']
+    domains = content['domains']
+    mitre = content['mitre_attcks']
+    for i in range(len(mitre)):
+        attck.append(mitre[i]['attck_id'])
+        tactic.append(mitre[i]['tactic'])
+        technique.append(mitre[i]['technique'])
     complete = [[attck[i], tactic[i], technique[i]] for i in range(len(attck))]
     return hosts, domains, complete
