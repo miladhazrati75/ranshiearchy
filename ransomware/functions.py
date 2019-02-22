@@ -1,4 +1,4 @@
-import string , os, subprocess, colorama, json
+import string, os, subprocess, colorama, json
 
 
 
@@ -46,3 +46,26 @@ def hybrid_analysis(content):
         technique.append(mitre[i]['technique'])
     complete = [[attck[i], tactic[i], technique[i]] for i in range(len(attck))]
     return hosts, domains, complete
+
+
+def pe_secions(soup):
+    sections = ['.text', '.data', '.rsrc', '.reloc', '.rdata', '.idata', '.edata', '.pdata']
+    secdict = {}
+    x = soup.select('div.enum')
+    for name in sections:
+        for span in x:
+            if name in span.text:
+                secdict[name] = span.text.translate({ord(c): None for c in string.whitespace})[-32:]
+    return secdict
+
+
+def timestamps(soup):
+    title = ['Compilation timestamp', 'First submission']
+    x = soup.select('span.field-key')
+    times = {}
+    for name in title:
+        for span in x:
+            if name in span.text:
+                times[name] = span.parent.text.replace(name, '').translate(
+                    {ord(c): None for c in string.whitespace})[:10]
+    return times

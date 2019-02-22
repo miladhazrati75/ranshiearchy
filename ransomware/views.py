@@ -21,18 +21,18 @@ def newSample(request):
 
 def handle_sample(request):
     sha256 = request.POST.get('sha256')
-    email = request.POST.get('email')
     resp = requests.get('https://www.virustotal.com/en/file/'+sha256+'/analysis/12756494724/')
     soup = BeautifulSoup(resp.content, 'html.parser')
     os.chdir('C:\\Users\\Milad\\PycharmProjects\\ransomwares\\vxapi\\')
     ransom_name = request.POST.get('ransomname')
     hashes = functions.hash(soup)
     avs = functions.avs(soup, sha256)
+    sections = functions.pe_secions(soup)
     hash = models.Samples(ransom_name=models.Ransomwares.objects.get(ransom_name=ransom_name), sha256=sha256,
                           ssdeep=hashes[0] if hashes[0] != '' else '',
                           authentihash=hashes[1] if hashes[1] != '' else '',
                           imphash=hashes[2] if hashes[2] != '' else '',
-                          extension=request.POST.get('extension') if request.POST.get('extension') !='' else '',
+                          extension=request.POST.get('extension') if request.POST.get('extension') != '' else '',
                           wallettype=request.POST.get('wallettype') if request.POST.get('wallettype') != '' else '',
                           walletno=request.POST.get('walletno') if request.POST.get('walletno') != '' else '',
                           encryption=request.POST.get('encryption') if request.POST.get('encryption') != '' else '',
@@ -45,8 +45,35 @@ def handle_sample(request):
                              drweb=avs[2], emsisoft=avs[3], eset=avs[4], kasp=avs[5],
                              symantec=avs[6], malwarebytes=avs[7])
     antiviruses.save()
-    email = models.Email(sample_id=models.Samples.objects.get(sha256=sha256), email=request.POST.get('email'))
-    email.save()
+    socials = {}
+    s = request.POST.get('social_id')
+    if s is not None:
+        first = s.split(',')
+        for i in range(len(first)):
+            socials[first[i].split(':')[0]] = first[i].split(':')[1]
+    if request.POST.get('email') != '':
+        email = models.Social(sample_id=models.Samples.objects.get(sha256=sha256),
+                             email=request.POST.get('email') if request.POST.get('email') != '' else '')
+        email.save()
+    elif request.POST.get('social_id') != '':
+        ids = list(socials.keys())
+        platform = list(socials.values())
+        for i in range(len(ids)):
+            social = models.Social(sample_id=models.Samples.objects.get(sha256=sha256),
+                                   social_id=ids[i] if ids[i] != '' else '',
+                                   platform=platform[i] if platform[i] != '' else '')
+            social.save()
+    elif request.POST.get('email') != '' and request.POST.get('social_id') != '':
+        email = models.Social(sample_id=models.Samples.objects.get(sha256=sha256),
+                              email=request.POST.get('email') if request.POST.get('email') != '' else '')
+        email.save()
+        ids = list(socials.keys())
+        platform = list(socials.values())
+        for i in range(len(ids)):
+            social = models.Social(sample_id=models.Samples.objects.get(sha256=sha256),
+                                   social_id=ids[i] if ids[i] != '' else '',
+                                   platform=platform[i] if platform[i] != '' else '')
+            social.save()
     p = subprocess.Popen(
         'python vxapi.py report_get_summary ' + sha256 + ':120',
         stdout=subprocess.PIPE)
@@ -90,13 +117,25 @@ def handle_sample(request):
     else:
         noha = models.NoHA(sample_id=models.Samples.objects.get(sha256=sha256), sha256=sha256)
         noha.save()
-    return render(request, 'test.html', {'msg':'ok'})
+    secname = list(sections.keys())
+    sechash = list(sections.values())
+    for i in range(len(secname)):
+        section = models.Sections(sample_id=models.Samples.objects.get(sha256=sha256),
+                                sec_name=secname[i] if secname[i] != '' else '',
+                                sec_hash=sechash[i] if sechash[i] != '' else '')
+        section.save()
+    times = functions.timestamps(soup)
+    time = models.Times(sample_id=models.Samples.objects.get(sha256=sha256),
+                        compiletime=times['Compilation timestamp'] if 'Compilation timestamp' in times else '',
+                        firstsubmisison=times['First submission'] if 'First submission' in times else '')
+    time.save()
+    return render(request, 'index.html', {'msg':'All data saved to database successfully.'})
 
 
 def handle_ransomware(request):
     ransom = models.Ransomwares(ransom_name=request.POST.get('name'), parent=request.POST.get('parent'),
                                 family=request.POST.get('family'), similar=request.POST.get('similar'),
-                                isroot=request.POST.get('isroot'), author=request.POST.get('author'),
-                                attacktype=request.POST.get('attacktype'))
+                                sibling=request.POST.get('sibling'), isroot=request.POST.get('isroot'),
+                                author=request.POST.get('author'), attacktype=request.POST.get('attacktype'))
     ransom.save()
     return render(request, 'test.html', {'msg':'Ransom'})

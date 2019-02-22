@@ -4,6 +4,7 @@ from django.db import models
 class Ransomwares(models.Model):
     ransom_name = models.CharField(primary_key=True, max_length=200)
     parent = models.CharField(max_length=200, null=True)
+    sibling = models.CharField(max_length=200, null=True)
     family = models.CharField(max_length=200, null=True)
     similar = models.CharField(max_length=200, null=True)
     isroot = models.BooleanField(max_length=200, null=True)
@@ -45,9 +46,11 @@ class Network(models.Model):
     domain = models.CharField(max_length=200, null=True)
 
 
-class Email(models.Model):
+class Social(models.Model):
     sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
     email = models.CharField(max_length=200, null=True)
+    social_id = models.CharField(max_length=200, null=True)
+    platform = models.CharField(max_length=200, null=True)
 
 
 class Mitre(models.Model):
@@ -59,4 +62,16 @@ class Mitre(models.Model):
 
 class NoHA(models.Model):
     sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
-    sha256 = models.CharField(max_length=200, null=True)
+    sha256 = models.CharField(max_length=200)
+
+
+class Sections(models.Model):
+    sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
+    sec_name = models.CharField(max_length=20, null=True)
+    sec_hash = models.CharField(max_length=32, null=True)
+
+
+class Times(models.Model):
+    sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
+    compiletime = models.CharField(max_length=10)
+    firstsubmisison = models.CharField(max_length=10)
