@@ -14,12 +14,12 @@
             <ul>
             {% for ransom in ransomlist %}
                 <li>{{ ransom.ransom_name }}</li>
-
             {% endfor %}
             </ul>
         </div>
         <div class="col-4">
-            <form action="/ransom" method="post" style="margin-top: 50px">
+            <a href="/Sample">Submit a sample!</a>
+            <form action="/ransom" method="post" style="margin-top: 30px">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="name">Ransomware Name:</label>
@@ -34,12 +34,20 @@
                     <input type="text" class="form-control" name="family">
                 </div>
                 <div class="form-group">
-                    <label for="similar">Similar:</label>
-                    <input type="text" class="form-control" name="similar">
-                </div>
-                <div class="form-group">
                     <label for="attacktype">AttackType:</label>
                     <input type="text" class="form-control" name="attacktype">
+                </div>
+                <div class="form-group">
+                    <label for="activitystart">Activity Start:</label>
+                    <input type="text" class="form-control" name="activitystart">
+                </div>
+                <div class="form-group">
+                    <label for="targetusers">Target Users:</label>
+                    <input type="text" class="form-control" name="targetusers">
+                </div>
+                <div class="form-group">
+                    <label for="similar">Similar:</label>
+                    <input type="text" class="form-control" name="similar">
                 </div>
                 <div class="form-group">
                     <label for="isroot">Is Root?</label>
@@ -53,6 +61,10 @@
                 <div class="form-group">
                     <label for="platform">Platform:</label>
                     <input type="text" class="form-control" name="platform">
+                </div>
+                <div class="form-group">
+                    <label for="additional">Additional:</label>
+                    <textarea rows="3" class="form-control" name="additional"></textarea>
                 </div>
                 <button type="submit" id="salam" class="btn btn-info">Submit!</button>
 

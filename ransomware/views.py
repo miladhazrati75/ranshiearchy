@@ -24,7 +24,8 @@ def newRansomware(request):
 
 
 def newSample(request):
-    return render(request, 'sample.html')
+    ransomlist = models.Ransomwares.objects.values('ransom_name')
+    return render(request, 'sample.html', {'ransomlist':ransomlist})
 
 
 def handle_sample(request):
@@ -47,7 +48,8 @@ def handle_sample(request):
                           mutex=request.POST.get('mutex') if request.POST.get('mutex') != '' else '',
                           publickey=request.POST.get('publickey') if request.POST.get('publickey') != '' else '',
                           deckey=request.POST.get('deckey') if request.POST.get('deckey') != '' else '',
-                          platform=request.POST.get('platform') if request.POST.get('platform') != '' else '')
+                          platform=request.POST.get('platform') if request.POST.get('platform') != '' else '',
+                          additional=request.POST.get('additional') if request.POST.get('additional') != '' else '')
 
     hash.save()
     antiviruses = models.AVs(sample_id=models.Samples.objects.get(sha256=sha256), avast=avs[0], bitdefender=avs[1],
@@ -145,6 +147,8 @@ def handle_ransomware(request):
     ransom = models.Ransomwares(ransom_name=request.POST.get('name'), parent=request.POST.get('parent'),
                                 family=request.POST.get('family'), similar=request.POST.get('similar'),
                                 sibling=request.POST.get('sibling'), isroot=request.POST.get('isroot'),
-                                author=request.POST.get('author'), attacktype=request.POST.get('attacktype'))
+                                author=request.POST.get('author'), attacktype=request.POST.get('attacktype'),
+                                targetusers=request.POST.get('targetusers'), activitystart=request.POST.get('activitystart'),
+                                additional=request.POST.get('additional'))
     ransom.save()
     return render(request, 'index.html', {'msg':'Ransomware added.'})

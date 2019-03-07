@@ -11,6 +11,9 @@ class Ransomwares(models.Model):
     isroot = models.BooleanField(max_length=200, null=True)
     attacktype = models.CharField(max_length=200, null=True)
     author = models.CharField(max_length=200, null=True)
+    activitystart = models.CharField(max_length=200, null=True)
+    targetusers = models.CharField(max_length=200, default="English")
+    additional = models.CharField(max_length=500, null=True)
 
 
 class Samples(models.Model):
@@ -27,7 +30,7 @@ class Samples(models.Model):
     imphash = models.CharField(max_length=200, null=True)
     ssdeep = models.CharField(max_length=200, null=True)
     authentihash = models.CharField(max_length=200, null=True)
-
+    additional = models.CharField(max_length=500, null=True)
 
 class AVs(models.Model):
     sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)
