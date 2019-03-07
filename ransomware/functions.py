@@ -37,7 +37,7 @@ def hybrid_analysis(content):
     attck = []
     tactic = []
     technique = []
-    hosts = content['hosts']
+    hosts = content['hosts'] 
     domains = content['domains']
     mitre = content['mitre_attcks']
     for i in range(len(mitre)):

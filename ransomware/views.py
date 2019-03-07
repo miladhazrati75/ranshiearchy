@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from ransomware import functions
 from ransomware import models
 import requests, os, subprocess
@@ -12,7 +11,16 @@ def index(request):
 
 
 def newRansomware(request):
-    return render(request, 'ransomware.html')
+    ransomlist = models.Ransomwares.objects.values('ransom_name')
+    parentslist = models.Ransomwares.objects.values('parent')
+    parents = []
+    for parent in parentslist:
+        for ransom in ransomlist:
+            if parent['parent'] == ransom['ransom_name']:
+                continue
+        if parent['parent'] != '':
+            parents.append(parent['parent'])
+    return render(request, 'ransomware.html', {'ransomlist':ransomlist, 'parentslist':parents})
 
 
 def newSample(request):
@@ -38,7 +46,8 @@ def handle_sample(request):
                           encryption=request.POST.get('encryption') if request.POST.get('encryption') != '' else '',
                           mutex=request.POST.get('mutex') if request.POST.get('mutex') != '' else '',
                           publickey=request.POST.get('publickey') if request.POST.get('publickey') != '' else '',
-                          deckey=request.POST.get('deckey') if request.POST.get('deckey') != '' else '')
+                          deckey=request.POST.get('deckey') if request.POST.get('deckey') != '' else '',
+                          platform=request.POST.get('platform') if request.POST.get('platform') != '' else '')
 
     hash.save()
     antiviruses = models.AVs(sample_id=models.Samples.objects.get(sha256=sha256), avast=avs[0], bitdefender=avs[1],
@@ -138,4 +147,4 @@ def handle_ransomware(request):
                                 sibling=request.POST.get('sibling'), isroot=request.POST.get('isroot'),
                                 author=request.POST.get('author'), attacktype=request.POST.get('attacktype'))
     ransom.save()
-    return render(request, 'test.html', {'msg':'Ransom'})
+    return render(request, 'index.html', {'msg':'Ransomware added.'})

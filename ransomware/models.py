@@ -6,6 +6,7 @@ class Ransomwares(models.Model):
     parent = models.CharField(max_length=200, null=True)
     sibling = models.CharField(max_length=200, null=True)
     family = models.CharField(max_length=200, null=True)
+    platform = models.CharField(max_length=200, default="Windows")
     similar = models.CharField(max_length=200, null=True)
     isroot = models.BooleanField(max_length=200, null=True)
     attacktype = models.CharField(max_length=200, null=True)
