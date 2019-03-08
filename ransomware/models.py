@@ -18,7 +18,7 @@ class Ransomwares(models.Model):
 
 class Samples(models.Model):
     sample = models.IntegerField(primary_key=True)
-    sha256 = models.CharField(max_length=200)
+    sha256 = models.CharField(max_length=200, null=True)
     ransom_name = models.ForeignKey(Ransomwares, on_delete=models.CASCADE)
     extension = models.CharField(max_length=200, null=True)
     wallettype = models.CharField(max_length=200, null=True)

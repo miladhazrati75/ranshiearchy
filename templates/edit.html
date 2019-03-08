@@ -19,52 +19,57 @@
         </div>
         <div class="col-4">
             <a href="/Sample">Submit a sample!</a>
-            <form action="/ransom" method="post" style="margin-top: 30px">
+            <form action="/EditHandle/{{ ransom.name }}/" method="post" style="margin-top: 30px">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="name">Ransomware Name:</label>
-                    <input type="text" class="form-control" name="name" value="{{ ransomname }}">
+                    <input type="text" class="form-control" name="name" id="names" value="{{ ransom.name }}">
                 </div>
                 <div class="form-group">
                     <label for="parent">Parent:</label>
-                    <input type="text" class="form-control" name="parent">
+                    <input type="text" class="form-control" name="parent" value="{{ ransom.parent }}">
                 </div>
                 <div class="form-group">
                     <label for="family">Family:</label>
-                    <input type="text" class="form-control" name="family">
+                    <input type="text" class="form-control" name="family" value="{{ ransom.family }}">
                 </div>
                 <div class="form-group">
                     <label for="attacktype">AttackType:</label>
-                    <input type="text" class="form-control" name="attacktype">
+                    <input type="text" class="form-control" name="attacktype" value="{{ ransom.attacktype }}">
                 </div>
                 <div class="form-group">
                     <label for="activitystart">Activity Start:</label>
-                    <input type="text" class="form-control" name="activitystart">
+                    <input type="text" class="form-control" name="activitystart" value="{{ ransom.activitystart }}">
                 </div>
                 <div class="form-group">
                     <label for="targetusers">Target Users:</label>
-                    <input type="text" class="form-control" name="targetusers">
+                    <input type="text" class="form-control" name="targetusers" value="{{ ransom.targetusers }}">
                 </div>
                 <div class="form-group">
                     <label for="similar">Similar:</label>
-                    <input type="text" class="form-control" name="similar">
+                    <input type="text" class="form-control" name="similar" value="{{ ransom.similar }}">
                 </div>
                 <div class="form-group">
                     <label for="isroot">Is Root?</label>
-                    <input type="radio" class="form-check-inline" name="isroot" value="True" >Yes
+                    {% if ransom.isroot is True %}
+                    <input type="radio" class="form-check-inline" name="isroot" value="True" checked>Yes
                     <input type="radio" class="form-check-inline" name="isroot" value="False">No
+                    {% elif ransom.isroot is False %}
+                    <input type="radio" class="form-check-inline" name="isroot" value="True">Yes
+                    <input type="radio" class="form-check-inline" name="isroot" value="False" checked>No
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="author">Author:</label>
-                    <input type="text" class="form-control" name="author">
+                    <input type="text" class="form-control" name="author" value="{{ ransom.author }}">
                 </div>
                 <div class="form-group">
                     <label for="platform">Platform:</label>
-                    <input type="text" class="form-control" name="platform">
+                    <input type="text" class="form-control" name="platform" value="{{ ransom.platform }}">
                 </div>
                 <div class="form-group">
                     <label for="additional">Additional:</label>
-                    <textarea rows="3" class="form-control" name="additional"></textarea>
+                    <textarea rows="3" class="form-control" name="additional" >{{ ransom.additional }}</textarea>
                 </div>
                 <button type="submit" id="salam" class="btn btn-info">Submit!</button>
 
