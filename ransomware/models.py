@@ -31,6 +31,7 @@ class Samples(models.Model):
     ssdeep = models.CharField(max_length=200, null=True)
     authentihash = models.CharField(max_length=200, null=True)
     additional = models.CharField(max_length=500, null=True)
+    #hasdecryptor = models.BooleanField(null=True)
 
 class AVs(models.Model):
     sample_id = models.ForeignKey(Samples, on_delete=models.CASCADE)

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
+    <script src="{% static "jquery.min.js" %}"></script>
+    <script src="{% static "popper.min.js" %}"></script>
+    <script src="{% static "bootstrap.min.js" %}"></script>
+</head>
+<body>
+<center>
+    <div class="container">
+        <table class="table-bordered" >
+            <thead>
+                <tr>
+                    {% for head in heads %}
+                        <th style="padding: 20px; background-color: #7abaff; color: white; text-align: center;">{{ head }}</th>
+                    {% endfor %}
+                        <th style="padding: 20px; background-color: #7abaff; color: white; text-align: center">Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for datum in data %}
+                    <td style="padding: 20px; text-align: center">{{ datum }}</td>
+                    {% endfor %}
+                    <td style="padding: 20px; text-align: center"><a href="/Edit/{{ ransomname }}/">Edit</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</center>
+</body>
+</html>

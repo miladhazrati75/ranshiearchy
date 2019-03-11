@@ -235,3 +235,31 @@ def addransomware(request, ransomname):
         if parent['parent'] not in ransomlist:
             parents.append(parent['parent'])
     return render(request, 'ransomware.html', {'ransomlist':ransomlist, 'parentslist':parents, 'ransomname':ransomname})
+
+
+def info(request, ransomname):
+    ransom = models.Ransomwares.objects.filter(ransom_name=ransomname).first()
+    dict = {'Ransomware' : ransom.ransom_name,
+    'Parent' : ransom.parent,
+    'Family' : ransom.family,
+    'Sibling' : ransom.sibling,
+    'Similar To' : ransom.similar,
+    'Author' : ransom.author,
+    'Platform' : ransom.platform,
+    'Is Root?' : ransom.isroot,
+    'Attack Type' : ransom.attacktype,
+    'Activity Start' : ransom.activitystart,
+    'Target Users' : ransom.targetusers,
+    'Additional' : ransom.additional}
+    dict1 = {k: v for k, v in dict.items() if v is not None and v is not ''}
+    heads = dict1.keys()
+    data = dict1.values()
+    '''heads = ['ransom_name', 'parent', 'family', 'sibling', 'similar', 'author', 'platform',
+             'isroot', 'attacktype', ' activitystart', 'targetusers', 'additional']
+    data = [ransom.ransom_name, ransom.parent, ransom.family, ransom.sibling, ransom.similar,
+            ransom.author, ransom.platform, ransom.isroot, ransom.attacktype,
+            ransom.activitystart, ransom.targetusers, ransom.additional]
+    for i in range(len(data)):
+        if data[i] == '' or data[i] is None:
+            data.pop(i)'''
+    return render(request, 'info.html', {'heads':dict1, 'data':data, 'ransomname':ransom.ransom_name})

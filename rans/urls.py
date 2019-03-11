@@ -26,5 +26,6 @@ urlpatterns = [
     path('ransom', views.handle_ransomware),
     path('Edit/<str:ransomname>/', views.edit_ransomware),
     path('EditHandle/<str:ransomname>/', views.handle_edit),
-    path('Add/<str:ransomname>/', views.addransomware)
+    path('Add/<str:ransomname>/', views.addransomware),
+    path('Info/<str:ransomname>/', views.info)
 ]
